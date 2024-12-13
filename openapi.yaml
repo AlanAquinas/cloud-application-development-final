@@ -1,0 +1,173 @@
+swagger: "2.0"
+info:
+  title: Event Management System API
+  description: API documentation for the Event Management System.
+  version: "1.0.0"
+
+host: cload-app-dev-final.an.r.appspot.com
+schemes:
+  - https
+paths:
+  /:
+    get:
+      summary: Render the login page
+      description: Returns the login page with events and branches.
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: Successfully rendered the login page.
+    post:
+      summary: Register a participant
+      description: Handles participant registration for an event.
+      consumes:
+        - application/x-www-form-urlencoded
+      parameters:
+        - name: FirstName
+          in: formData
+          type: string
+          required: true
+        - name: LastName
+          in: formData
+          type: string
+          required: true
+        - name: MobileNumber
+          in: formData
+          type: string
+          required: true
+        - name: Branch
+          in: formData
+          type: integer
+          required: true
+        - name: Event
+          in: formData
+          type: integer
+          required: true
+        - name: Email
+          in: formData
+          type: string
+          required: true
+      responses:
+        "200":
+          description: Successfully registered the participant.
+        "400":
+          description: Invalid input provided.
+
+  /loginfail:
+    get:
+      summary: Render the login fail page
+      description: Displays a page indicating login failure.
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: Successfully rendered the login fail page.
+
+  /admin:
+    get:
+      summary: Render the admin login page
+      description: Displays the admin login page.
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: Successfully rendered the admin login page.
+    post:
+      summary: Admin login
+      description: Handles admin login and redirects to the event management page on success.
+      consumes:
+        - application/x-www-form-urlencoded
+      parameters:
+        - name: username
+          in: formData
+          type: string
+          required: true
+        - name: password
+          in: formData
+          type: string
+          required: true
+      responses:
+        "200":
+          description: Successfully authenticated.
+        "401":
+          description: Invalid username or password.
+
+  /eventType:
+    get:
+      summary: Get event types and events
+      description: Fetches all event types, events, and related details.
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: Successfully fetched event types and events.
+    post:
+      summary: Create or delete an event
+      description: Allows creation or deletion of events.
+      consumes:
+        - application/x-www-form-urlencoded
+      parameters:
+        - name: newEvent
+          in: formData
+          type: string
+        - name: Fee
+          in: formData
+          type: number
+        - name: maxP
+          in: formData
+          type: integer
+        - name: EventType
+          in: formData
+          type: integer
+        - name: EventLocation
+          in: formData
+          type: integer
+        - name: Date
+          in: formData
+          type: string
+          format: date
+        - name: EventId
+          in: formData
+          type: integer
+      responses:
+        "201":
+          description: Successfully created an event.
+        "204":
+          description: Successfully deleted an event.
+        "400":
+          description: Invalid input provided.
+
+  /eventinfo:
+    get:
+      summary: Fetch event information
+      description: Returns detailed event information, including types and locations.
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: Successfully fetched event information.
+
+  /participants:
+    get:
+      summary: Render the participants page
+      description: Displays the participants page for event selection.
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: Successfully rendered the participants page.
+    post:
+      summary: Fetch participants for an event
+      description: Returns a list of participants for a selected event.
+      consumes:
+        - application/x-www-form-urlencoded
+      parameters:
+        - name: Event
+          in: formData
+          type: integer
+          required: true
+      responses:
+        "200":
+          description: Successfully fetched participants.
+        "404":
+          description: No participants found.

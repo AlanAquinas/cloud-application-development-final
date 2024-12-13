@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flask-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: flask-app
+  template:
+    metadata:
+      labels:
+        app: flask-app
+    spec:
+      containers:
+        - name: flask-app
+          image: gcr.io/cload-app-dev-final/flask-app:latest
+          ports:
+            - hostPort: 5000
+              containerPort: 5000
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "250m"
+            limits:
+              memory: "256Mi"
+              cpu: "500m"
+          env:
+            - name: INSTANCE_CONNECTION_NAME
+              value: "cload-app-dev-final:asia-northeast1:event-management-system-db-1"
+            - name: DB_USER
+              value: "root1"
+            - name: DB_PASS
+              value: "password1"
+            - name: DB_NAME
+              value: "event_mgmt"
